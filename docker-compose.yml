@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  wled-discovery:
+    image: janhake/wled:latest  # Vervang met jouw username
+    container_name: wled-discovery
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - PORT=3000
