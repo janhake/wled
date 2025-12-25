@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WLED Discovery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔍 WLED Discovery</h1>
+      <p class="subtitle">Automatische detectie van WLED devices op je netwerk</p>
+    </header>
+
+    <div class="controls">
+      <button onclick="refresh()">🔄 Ververs</button>
+    </div>
+
+    <div class="stats">
+      <span class="status"></span>
+      <span id="device-count">Laden...</span>
+    </div>
+
+    <div class="devices-grid" id="devices"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,12 +1,34 @@
-name: Build and Push to GitHub Container Registry
+name: Build and Push to GHCR
 
 on:
   push:
-    branches: [ main, master ]
-  workflow_dispatch:  # Handmatige trigger via GitHub UI
+    branches: [ main, master, code-seperation ]
+  workflow_dispatch:
 
 jobs:
+  # --- NIEUWE TEST JOB ---
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # VOORBEELD: Setup voor Node.js (pas dit aan naar jouw taal, bijv. Python/Go)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test  # Als dit faalt, stopt de hele workflow hier!
+
+  # --- DE BESTAANDE BUILD JOB ---
   build:
+    needs: test  # CRUCIAAL: Dit zorgt ervoor dat build wacht op test!
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -32,7 +54,8 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=raw,value=latest
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=ref,event=branch
             type=sha,prefix={{branch}}-
       
       - name: Build and push Docker image
