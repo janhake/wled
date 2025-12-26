@@ -1,0 +1,2 @@
+Deployment error
+Failed to deploy a stack: compose up operation failed: Error response from daemon: pull access denied for janhake/wled, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
